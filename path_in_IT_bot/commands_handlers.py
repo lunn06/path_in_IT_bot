@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from utils import get_text
+from utils import get_text  # type: ignore
 
 command_router = Router()
 

@@ -17,6 +17,9 @@ databases = {extras = ["asyncpg", "aiopg"], version = "^0.8.0"}
 mypy = "^1.6.1"
 types-aiofiles = "^23.2.0.0"
 
+[tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs/path_in_IT_bot"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

@@ -4,8 +4,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from utils import get_text
-from states import Menu
+from utils import get_text  # type: ignore
+from states import Menu  # type: ignore
 
 garage_router = Router()
 

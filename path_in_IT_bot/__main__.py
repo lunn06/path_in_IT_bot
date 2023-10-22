@@ -11,8 +11,8 @@ from aiogram.types.callback_query import CallbackQuery
 from dotenv import load_dotenv
 
 from utils import get_text
-from commands_handlers import command_router
-from garage_handlers import garage_router
+from commands_handlers import command_router  # type: ignore
+from garage_handlers import garage_router  # type: ignore
 
 load_dotenv()
 
@@ -48,7 +48,7 @@ async def send_launch_message(callback: CallbackQuery) -> None:
 
     launch_message: str | None = await get_text("launch_message")
     if launch_message is not None:
-        await callback.message.answer(launch_message, reply_markup=keyboard) # type: ignore
+        await callback.message.answer(launch_message, reply_markup=keyboard)  # type: ignore
 
 
 if __name__ == "__main__":
