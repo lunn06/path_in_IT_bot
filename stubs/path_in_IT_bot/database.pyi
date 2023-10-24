@@ -1,14 +1,20 @@
 from _typeshed import Incomplete
 
-db_user: str | None
-db_name: str | None
-db_user_password: str | None
-db_host: str | None
-
 class Database:
     db_user: Incomplete
     db_name: Incomplete
     db_user_password: Incomplete
     db_host: Incomplete
+    def __init__(self, db_user: str, db_name: str, db_user_password: str, db_host: str) -> None: ...
+    async def initiate(self) -> None: ...
     @staticmethod
-    async def create_db(): ...
+    async def create() -> Database: ...
+
+class Connection:
+    db: Incomplete
+    def __init__(self, db: Database) -> None: ...
+    conn: Incomplete
+    async def __aenter__(self): ...
+    async def __aexit__(self, exc_type, exc_val, exc_tb) -> None: ...
+
+def connect_to(db: Database) -> Connection: ...
