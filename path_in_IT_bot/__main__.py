@@ -10,6 +10,7 @@ from aiogram.types.callback_query import CallbackQuery
 
 from dotenv import load_dotenv
 
+from database import Database
 from utils import get_text
 from commands_handlers import command_router  # type: ignore
 from garage_handlers import garage_router  # type: ignore
@@ -20,6 +21,7 @@ dp = Dispatcher(storage=MemoryStorage())
 
 
 async def main() -> None:
+    db = await Database.create_db()
     telegram_bot_token: str | None = os.getenv("TELEGRAM_BOT_TOKEN")
     bot = Bot(token=telegram_bot_token, parse_mode=ParseMode.HTML)  # type: ignore
     dp.include_router(command_router)
