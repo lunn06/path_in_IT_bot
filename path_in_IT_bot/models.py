@@ -1,12 +1,15 @@
-from _typeshed import Incomplete
-from pydantic import BaseModel, PositiveInt as PositiveInt
 from typing import TypeAlias
 
-Name: TypeAlias
+from pydantic import BaseModel
+from pydantic import PositiveInt
+
+Name: TypeAlias = str
+
 
 class TelegramBotProduct(BaseModel):
     cost: PositiveInt
     level: PositiveInt
+
 
 class TelegramBotProducer(BaseModel):
     translate: str
@@ -14,8 +17,11 @@ class TelegramBotProducer(BaseModel):
     currency: str
     products: dict[Name, TelegramBotProduct]
 
+
+class TelegramBotConsumer(BaseModel):
+    pass
+
+
 class TelegramBotModel(BaseModel):
     bases: dict[str, list[str]]
     producers: dict[Name, TelegramBotProducer]
-
-model: Incomplete

@@ -11,9 +11,13 @@ from icecream import install  # type: ignore
 install()
 
 from path_in_IT_bot.readers.config_reader import config
-from database import Database
-from handlers import commands, producers
-from path_in_IT_bot.readers.model_reader import TelegramBotModel
+from path_in_IT_bot.database import Database
+from path_in_IT_bot.handlers import commands, producers
+from path_in_IT_bot.readers.model_reader import model
+from path_in_IT_bot.factories.producers_factory import ProducersFactory
+from path_in_IT_bot.builders.dialogs_builder import DialogsBuilder
+from path_in_IT_bot.builders.states_builder import StatesGroupBuilder
+
 
 dp = Dispatcher(storage=MemoryStorage())
 
@@ -21,12 +25,16 @@ dp = Dispatcher(storage=MemoryStorage())
 async def main() -> None:
     db: Database = await Database.create()
 
-    with open("models/models.json", 'r') as file:
-        model: TelegramBotModel = TelegramBotModel.model_validate_json(file.read())
-
     bot = Bot(token=config.telegram_bot_token.get_secret_value(), parse_mode=ParseMode.HTML)
     dp.include_router(commands.router)
-    dp.include_router(producers.dialog)
+
+    menu = StatesGroupBuilder.build_from(model.producers.keys())
+
+    producers_factory = ProducersFactory()
+    for producer in producers_factory.items:
+        dialog = DialogsBuilder.build_from(producer, menu)
+        dp.include_router(dialog)
+
     setup_dialogs(dp)
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(
