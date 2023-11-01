@@ -1,15 +1,8 @@
 from __future__ import annotations
 
-import os
 import asyncpg  # type: ignore
-from dotenv import load_dotenv
 
-load_dotenv()
-
-_db_user: str | None = os.getenv("DB_USER")
-_db_name: str | None = os.getenv("DB_NAME")
-_db_user_password: str | None = os.getenv("DB_USER_PASSWORD")
-_db_host: str | None = os.getenv("DB_HOST")
+from path_in_IT_bot.readers.config_reader import config
 
 
 class Database:
@@ -29,38 +22,40 @@ class Database:
 
         await conn.execute('''
              CREATE TABLE IF NOT EXISTS users (
-                tg_id integer PRIMARY KEY 
+                tg_id integer PRIMARY KEY,
+                score integer
              );
         ''')
 
         await conn.close()
+
+    async def add_new_user(self, tg_id: int):
+        async with connect(self) as conn:
+            await conn.execute('''
+                INSERT INTO users (tg_id, score) VALUES ($1, $2) ON CONFLICT (tg_id) DO NOTHING
+            ''', tg_id, 0)
+
+    async def get_all_users(self):
+        async with connect(self) as conn:
+            return await conn.fetch('''
+                SELECT * FROM USERS 
+            ''')
 
     @staticmethod
     async def create() -> Database:
-        if (_db_user is None) or (_db_name is None) or (_db_user_password is None) or (_db_host is None):
-            raise ValueError("DatabaseCreationError: Bad config")
-
-        db = Database(_db_user, _db_name, _db_user_password, _db_host)
-
-        conn = await asyncpg.connect(
-            user=db.db_user,
-            password=db.db_user_password,
-            database=db.db_name,
-            host=db.db_host,
+        db = Database(
+            config.db_user,
+            config.db_name,
+            config.db_user_password.get_secret_value(),
+            config.db_host
         )
 
-        await conn.execute('''
-             CREATE TABLE IF NOT EXISTS users (
-                tg_id integer PRIMARY KEY 
-             );
-        ''')
-
-        await conn.close()
+        await db.initiate()
 
         return db
 
 
-class Connection:
+class DatabaseConnection:
 
     def __init__(self, db: Database):
         self.db = db
@@ -79,5 +74,5 @@ class Connection:
         await self.conn.close()
 
 
-def connect_to(db: Database) -> Connection:
-    return Connection(db)
+def connect(db: Database) -> DatabaseConnection:
+    return DatabaseConnection(db)

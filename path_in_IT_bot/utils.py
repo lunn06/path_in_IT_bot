@@ -1,17 +1,11 @@
-import json
+from typing import Generator
 
-import aiofiles
+from aiogram.types import KeyboardButton
+
+from path_in_IT_bot.readers.model_reader import model
 
 
-async def get_text(key: str) -> str | None:
-    """
-    Функция, по ключу сооющения возвращающая тект сооющения из text.json
-
-    :param str key: ключ для получения текста из text.json
-    """
-    async with aiofiles.open('static/text.json', mode='r') as file:
-        row_content = await file.read()
-
-    json_content: dict[str, str] = json.loads(row_content)
-
-    return json_content.get(key)
+def build_main_menu_kb() -> list[list[KeyboardButton]]:
+    return [
+        [KeyboardButton(text=producer_value.translate.capitalize())] for producer_value in model.producers.values()
+    ]
