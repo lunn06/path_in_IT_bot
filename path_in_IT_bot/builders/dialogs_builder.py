@@ -1,11 +1,11 @@
-from typing import Iterable, Type, TypeAlias
+from typing import Type, TypeAlias
 
 from aiogram_dialog import Window, Dialog
 from aiogram.fsm.state import StatesGroup
 from aiogram_dialog.widgets.kbd import Button
-from aiogram_dialog.widgets.text import Format, Const
+from aiogram_dialog.widgets.text import Const
 
-from path_in_IT_bot.models import TelegramBotProducer, TelegramBotConsumer
+from path_in_IT_bot.models import TelegramBotConsumer
 from path_in_IT_bot.entities.producer import Producer
 
 TelegramEntity: TypeAlias = Producer | TelegramBotConsumer

@@ -1,15 +1,21 @@
 from typing import Iterable, Type
+from typing_extensions import Unpack
 
 from aiogram.fsm.state import State, StatesGroup
 
 
 class StatesGroupBuilder:
 
-    def __init__(self, *states: Iterable[str]):
+    def __init__(self, *states: Unpack[tuple[str]]):
+        """
+
+        :type Iterable[str] states: object
+        """
+
         self._states: list[str] = list(states)
 
     @staticmethod
-    def build_from(entity: Iterable[str]) -> Type[StatesGroup]:
+    def build_from(*entity: str) -> Type[StatesGroup]:
         builder = StatesGroupBuilder(*entity)
         return builder.build()
 

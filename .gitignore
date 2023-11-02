@@ -3,3 +3,4 @@ models/
 stubs/
 .env
 .idea
+.ruff_cache/

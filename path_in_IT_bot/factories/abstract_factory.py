@@ -5,4 +5,4 @@ from typing import Iterable, Any
 class AbstractFactory(ABC):
     @property
     def items(self) -> Iterable[Any]:
-        raise NotImplemented
+        raise NotImplementedError
