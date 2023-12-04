@@ -7,31 +7,35 @@ from aiogram_dialog.widgets.text import Const
 
 from path_in_IT_bot.models import TelegramBotConsumer
 from path_in_IT_bot.entities.producer import Producer
+from path_in_IT_bot.builders.abstract_builder import AbstractBuilder
 
 TelegramEntity: TypeAlias = Producer | TelegramBotConsumer
 
 
-class DialogsBuilder:
+class DialogsBuilder(AbstractBuilder):
     def __init__(self, entity: TelegramEntity, group: Type[StatesGroup]):
         self._entity = entity
         self._group = group
+        self._product: Dialog | None = None
 
     @staticmethod
     def build_from(entity: TelegramEntity, group: Type[StatesGroup]) -> Dialog:
-        builder = DialogsBuilder(entity, group)
-        return builder.build()
+        builder: DialogsBuilder = DialogsBuilder(entity, group)
+        builder.produce()
+
+        return builder.product  # type: ignore
 
     @property
-    def entity(self):
-        return self._entity
+    def product(self) -> Dialog | None:
+        return self._product
 
-    def build(self) -> Dialog:
+    def produce(self) -> None:
         if isinstance(self._entity, Producer):
             dialog: Dialog = self.build_producer_dialog()
         elif isinstance(self._entity, TelegramBotConsumer):
             raise NotImplementedError
 
-        return dialog
+        self._product = dialog
 
     def build_producer_dialog(self) -> Dialog:
         if not isinstance(self._entity, Producer):

@@ -1,42 +1,39 @@
-from typing import Type
-
 from aiogram import Router, F
-from aiogram_dialog import DialogManager
-from aiogram.fsm.state import StatesGroup
 from aiogram.filters import CommandStart
-from aiogram.types import ReplyKeyboardMarkup
-from aiogram.types import Message, CallbackQuery
-from aiogram_dialog.manager.manager import StartMode
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import default_state
+from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup
 
-from path_in_IT_bot.database import Database
-from path_in_IT_bot.utils import build_main_menu_kb
-from path_in_IT_bot.readers.model_reader import TelegramBotModel
+from path_in_IT_bot.database import DBUser
+from path_in_IT_bot.utils import build_kb
+from path_in_IT_bot.utils import get_text, build_inline_start_kb, validated
 
 router = Router()
 
 
 @router.message(CommandStart())
-async def start_handler(
-        msg: Message,
-        db: Database,
-        menu: Type[StatesGroup],
-        dialog_manager: DialogManager
-) -> None:
+async def start_handler(msg: Message, user: DBUser, state: FSMContext) -> None:
     """
     Функция-обработчик команды /start
 
-    :param DialogManager dialog_manager: объект менеджера диалогов
-    :param TelegramBotModel model: объект модели работы бота
-    :param Database db: объект базы данных
+    :param User user: объект базы данных
     :param Message msg: объект сообщения
     """
-    start_message: str = "Привет!"
-    #await msg.answer(start_message, reply_markup=builder.as_markup())
-    await dialog_manager.start(getattr(menu, "greeting"), mode=StartMode.RESET_STACK)
+    tg_user = validated(msg.from_user)
+
+    await user.add(tg_user.id)
+    # record_list = await user.get(user.id)
+    # for record in record_list:
+    #     await msg.answer(" ".join(map(str, record)))
+
+    start_message: str = await get_text("start_message", name=tg_user.first_name)
+    keyboard = await build_inline_start_kb(callback_data="launch_message")
+    await msg.answer(start_message, reply_markup=keyboard)
+    await state.set_state(default_state)
 
 
 @router.callback_query(F.data == "launch_message")
-async def send_launch_message(callback: CallbackQuery, model: TelegramBotModel) -> None:
+async def send_launch_message(callback: CallbackQuery) -> None:
     """
     Функция-колбек, вызываемая при возврате в главное меню
     Её главная задача - отображать клавиатуру с ключевыми пунктами меню
@@ -45,10 +42,10 @@ async def send_launch_message(callback: CallbackQuery, model: TelegramBotModel) 
     :param CallbackQuery callback: объект колбека для
     """
 
-    kb = build_main_menu_kb()
-
+    kb = build_kb((
+        "Гараж", "Кухня", "Гардероб", "Собеседование"
+    ))
     keyboard = ReplyKeyboardMarkup(keyboard=kb)
 
-    launch_message = "Пуск!"
-    if isinstance(launch_message, str):
-        await callback.message.answer(launch_message, reply_markup=keyboard)  # type: ignore
+    launch_message = await get_text("launch_message")
+    await validated(callback.message).answer(launch_message, reply_markup=keyboard)

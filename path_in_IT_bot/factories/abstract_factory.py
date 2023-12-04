@@ -3,6 +3,8 @@ from typing import Iterable, Any
 
 
 class AbstractFactory(ABC):
+    _items: Iterable[Any]
+
     @property
     def items(self) -> Iterable[Any]:
-        raise NotImplementedError
+        return self._items
