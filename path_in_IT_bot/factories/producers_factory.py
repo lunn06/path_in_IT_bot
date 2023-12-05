@@ -1,6 +1,6 @@
 from path_in_IT_bot.entities.producer import Producer
-from path_in_IT_bot.readers.model_reader import model
 from path_in_IT_bot.factories.abstract_factory import AbstractFactory
+from path_in_IT_bot.readers.model_reader import model
 
 
 class ProducersFactory(AbstractFactory):

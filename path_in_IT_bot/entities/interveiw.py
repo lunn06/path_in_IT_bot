@@ -1,10 +1,8 @@
-import os
 import json
 from typing import Any
-from shutil import copyfile
 
-from path_in_IT_bot.utils import iter_graph
 from path_in_IT_bot.entities.graph import GraphBuilder, AbstractNode, InitNode
+from path_in_IT_bot.utils import iter_graph
 
 
 class Interview:

@@ -5,11 +5,11 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from path_in_IT_bot.readers.config_reader import config
 from path_in_IT_bot.database import DBUser
 from path_in_IT_bot.handlers import commands
 # from path_in_IT_bot.readers.model_reader import model
 from path_in_IT_bot.handlers import garage, kitchen, wardrobe, interview
+from path_in_IT_bot.readers.config_reader import config
 
 # from path_in_IT_bot.factories.producers_factory import ProducersFactory
 # from path_in_IT_bot.builders.dialogs_builder import DialogsBuilder

@@ -1,15 +1,15 @@
 import json
 import random
-from typing import Iterable, Iterator
 from string import Template, ascii_lowercase
+from typing import Iterable, Iterator
 
 # import aiocache
 import aiofiles
+from aiogram.types import KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 # from aiocache import Cache
 # from redis.asyncio.client import Redis
 # from aiocache.serializers import StringSerializer
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from aiogram.types import KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 from path_in_IT_bot.entities.graph import AbstractNode
 
@@ -19,6 +19,12 @@ from path_in_IT_bot.entities.graph import AbstractNode
 #     serializer=StringSerializer(),
 #     cache=Cache.MEMORY,
 # )
+
+def find_node(to_find_node_id: str, root):
+    for node in iter_graph(root):
+        if node.id == to_find_node_id:
+            return node
+
 
 def iter_graph(
         root: AbstractNode,

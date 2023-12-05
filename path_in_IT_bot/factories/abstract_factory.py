@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Iterable, Any
+from typing import Any
 
 
 class AbstractFactory(ABC):

@@ -1,10 +1,10 @@
 from aiogram import F, Router
-from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
+from aiogram.types import Message
 
+from path_in_IT_bot.database import connect, DBUser
 from path_in_IT_bot.menu import Menu
 from path_in_IT_bot.utils import get_text, validated
-from path_in_IT_bot.database import connect, DBUser
 
 router = Router()
 

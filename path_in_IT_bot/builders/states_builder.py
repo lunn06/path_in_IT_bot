@@ -1,16 +1,9 @@
 from typing import Type
 
 from aiogram.fsm.state import StatesGroup, State  # noqa: F401
-from jinja2.nativetypes import NativeEnvironment
 
+from path_in_IT_bot.templates import meta_class_env
 from path_in_IT_bot.utils import random_str
-
-meta_class_template = '''
-class Meta_{{ class_id }}(StatesGroup):
-{% for state_id in states %}
-    state_{{ state_id }} = State()
-{% endfor %}
-'''
 
 
 class StatesGroupBuilder:
@@ -38,9 +31,7 @@ class StatesGroupBuilder:
     def build(self) -> Type[StatesGroup]:
         states: list[str] = self._states
 
-        env = NativeEnvironment()
-        # env = Environment()
-        t = env.from_string(meta_class_template)
+        t = meta_class_env
         uuid = random_str(5)
         render = t.render(states=states, class_id=uuid)
         exec(render)

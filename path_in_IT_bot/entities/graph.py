@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from abc import ABC
 from copy import deepcopy
 from typing import Any
@@ -104,7 +105,7 @@ class GraphBuilder:
                 return EndNode.from_data(formatted_node_data)
             case "question":
                 return QuestionNode.from_data(formatted_node_data)
-            case "yes_no_question":
+            case "choose_question":
                 return ChoseQuestionNode.from_data(formatted_node_data)
             case _:
                 raise RuntimeError()
