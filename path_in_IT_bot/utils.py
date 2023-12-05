@@ -1,6 +1,6 @@
 import json
 import random
-from typing import Iterable, Generator
+from typing import Iterable, Iterator
 from string import Template, ascii_lowercase
 
 # import aiocache
@@ -20,15 +20,25 @@ from path_in_IT_bot.entities.graph import AbstractNode
 #     cache=Cache.MEMORY,
 # )
 
-def iter_over_graph(root: AbstractNode, _first=True) -> Generator[AbstractNode, None, None]:
+def iter_graph(
+        root: AbstractNode,
+        _first=True,
+        _used: set[AbstractNode] | None = None,
+) -> Iterator[AbstractNode]:
+    if _used is None:
+        _used = set()
     if _first:
         yield root
+        _used.add(root)
 
     for branch in root.branches:
+        if branch.to_node in _used:
+            continue
         yield branch.to_node
+        _used.add(branch.to_node)
 
     for branch in root.branches:
-        yield from iter_over_graph(branch.to_node, False)
+        yield from iter_graph(branch.to_node, _first=False, _used=_used)
 
 
 def random_str(length: int) -> str:

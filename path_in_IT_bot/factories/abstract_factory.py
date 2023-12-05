@@ -3,8 +3,8 @@ from typing import Iterable, Any
 
 
 class AbstractFactory(ABC):
-    _items: Iterable[Any]
+    _items: list[Any]
 
     @property
-    def items(self) -> Iterable[Any]:
+    def items(self) -> list[Any]:
         return self._items

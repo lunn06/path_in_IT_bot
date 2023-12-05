@@ -1,6 +1,7 @@
 .mypy_cache/
 models/
 stubs/
+.cache/
 .env
 .idea
 .ruff_cache/

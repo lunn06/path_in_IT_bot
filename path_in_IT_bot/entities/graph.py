@@ -54,22 +54,22 @@ class InitNode(AbstractNode):
 
 
 class QuestionNode(AbstractNode):
-    _answer: str | None
+    _answers: list[str | None]
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self._answer = None
+        self._answers = []
 
     @property
-    def answer(self):
-        return self._answer
+    def answers(self) -> list[str | None]:
+        return self._answers
 
-    @answer.setter
-    def answer(self, answer):
-        self._answer = answer
+    @answers.setter
+    def answers(self, answer) -> None:
+        self._answers = answer
 
 
-class YesNoQuestionNode(QuestionNode):
+class ChoseQuestionNode(QuestionNode):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -105,7 +105,7 @@ class GraphBuilder:
             case "question":
                 return QuestionNode.from_data(formatted_node_data)
             case "yes_no_question":
-                return YesNoQuestionNode.from_data(formatted_node_data)
+                return ChoseQuestionNode.from_data(formatted_node_data)
             case _:
                 raise RuntimeError()
 
@@ -115,9 +115,17 @@ class GraphBuilder:
         to_node_id = edge_data["toNode"]
         label = edge_data.get("label", None)
 
-        nodes[from_node_id].branches += [Edge(
-            nodes[from_node_id],
-            nodes[to_node_id],
+        from_node = nodes[from_node_id]
+        to_node = nodes[to_node_id]
+
+        if isinstance(from_node, QuestionNode):
+            question_node: QuestionNode = from_node
+            if label:
+                question_node.answers += [label]
+
+        from_node.branches += [Edge(
+            from_node,
+            to_node,
             label,
         )]
 

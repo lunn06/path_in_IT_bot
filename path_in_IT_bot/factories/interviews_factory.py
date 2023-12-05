@@ -22,4 +22,10 @@ class InterviewsFactory(AbstractFactory):
 
 
 if __name__ == "__main__":
-    InterviewsFactory("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews")
+    from path_in_IT_bot.utils import iter_graph
+
+    factory = InterviewsFactory("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews")
+    for interview in factory.items:
+        print(interview.name)
+        for node in iter_graph(interview.root):
+            print(node.text, list((branch.label, branch.to_node.text) for branch in node.branches))
