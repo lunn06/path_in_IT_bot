@@ -4,13 +4,13 @@ from aiogram.types import Message, ReplyKeyboardMarkup
 from aiogram_dialog import setup_dialogs, StartMode, DialogManager  # noqa: F401
 
 from path_in_IT_bot.database import DBUser
-from path_in_IT_bot.factories.dialog_factory import DialogFactory
+from path_in_IT_bot.factories.dialogs_factory import DialogsFactory
 from path_in_IT_bot.menu import Menu
 from path_in_IT_bot.templates import dialog_handler_env
 from path_in_IT_bot.utils import validated, build_kb, random_str
 
 router = Router()
-factory = DialogFactory("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews")
+factory = DialogsFactory("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews")
 
 for item in factory.items:
     router.include_router(item.dialog)
