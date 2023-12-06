@@ -1,25 +1,30 @@
-from typing import Type
+from typing import override
 
 from aiogram.fsm.state import StatesGroup, State  # noqa: F401
 
-from path_in_IT_bot.templates import meta_class_env
 from path_in_IT_bot.utils import random_str
+from path_in_IT_bot.templates import meta_class_env
+from path_in_IT_bot.builders.abstract_builder import AbstractBuilder
 
 
-class StatesGroupBuilder:
+class StatesGroupBuilder(AbstractBuilder):
+    _product: type[StatesGroup]
 
-    def __init__(self, *states: str):
-        """
-
-        :type Iterable[str] states: object
-        """
-
+    def __init__(self, *states: str) -> None:
         self._states: list[str] = list(states)
 
+    @override
+    @property
+    def product(self) -> type[StatesGroup]:
+        return self._product
+
     @staticmethod
-    def build_from(*entity: str) -> Type[StatesGroup]:
-        builder = StatesGroupBuilder(*entity)
-        return builder.build()
+    @override
+    def build_from(*entities: str) -> type[StatesGroup]:
+        builder = StatesGroupBuilder(*entities)
+        builder.produce()
+
+        return builder.product
 
     def add(self, *states) -> None:
         self._states.extend(states)
@@ -28,7 +33,8 @@ class StatesGroupBuilder:
         if target in self._states:
             self._states.remove(target)
 
-    def build(self) -> Type[StatesGroup]:
+    @override
+    def produce(self) -> None:
         states: list[str] = self._states
 
         t = meta_class_env
@@ -36,18 +42,7 @@ class StatesGroupBuilder:
         render = t.render(states=states, class_id=uuid)
         exec(render)
 
-        # class Meta(StatesGroup):
-        #     @classmethod
-        #     def insert_states(cls):
-        #         for state_name in states:
-        #             state = State(state=state_name)
-        #             state._group = cls
-        #             setattr(cls, state_name, state)
-        #
-        # Meta.insert_states()
-        # return Meta
-
-        return eval(f"Meta_{uuid}")
+        self._product = eval(f"Meta_{uuid}")
 
 
 if __name__ == "__main__":
