@@ -62,6 +62,10 @@ class QuestionNode(AbstractNode):
         self._answers = []
 
     @property
+    def field(self) -> str:
+        return self._tags["field"]
+
+    @property
     def answers(self) -> list[str | None]:
         return self._answers
 

@@ -9,8 +9,6 @@ class Meta_{{ class_id }}(StatesGroup):
 {% endfor %}
 '''
 
-meta_class_env = env.from_string(meta_class_template)
-
 dialog_handler_template = '''
 @router.message(Menu.interview)
 @router.message(F.text == "{{ item.name }}")
@@ -29,4 +27,5 @@ async def dialog_{{ handler_id }}_handler(
             break
 '''
 
+meta_class_env = env.from_string(meta_class_template)
 dialog_handler_env = env.from_string(dialog_handler_template)
