@@ -70,7 +70,7 @@ class QuestionNode(AbstractNode):
         self._answers = answer
 
 
-class ChoseQuestionNode(QuestionNode):
+class ChooseQuestionNode(QuestionNode):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -106,7 +106,7 @@ class GraphBuilder:
             case "question":
                 return QuestionNode.from_data(formatted_node_data)
             case "choose_question":
-                return ChoseQuestionNode.from_data(formatted_node_data)
+                return ChooseQuestionNode.from_data(formatted_node_data)
             case _:
                 raise RuntimeError()
 
