@@ -3,7 +3,7 @@ from aiogram_dialog import Dialog
 
 from path_in_IT_bot.builders.dialog_builder import DialogBuilder
 from path_in_IT_bot.builders.states_group_builder import StatesGroupBuilder
-from path_in_IT_bot.entities.graph import AbstractNode
+from path_in_IT_bot.entities.graph import InitNode
 from path_in_IT_bot.entities.interveiw import Interview
 from path_in_IT_bot.factories.abstract_factory import AbstractFactory
 from path_in_IT_bot.factories.interviews_factory import InterviewsFactory
@@ -11,19 +11,36 @@ from path_in_IT_bot.utils import iter_graph
 
 
 class DialogsFactoryItem:
-    name: str
-    root: AbstractNode
-    states: type[StatesGroup]
-    dialog: Dialog
+    _name: str
+    _root: InitNode
+    _states: type[StatesGroup]
+    _dialog: Dialog
 
-    def __init__(self, name: str, root: AbstractNode, states_group: type[StatesGroup], dialog: Dialog):
-        self.name = name
-        self.root = root
-        self.states = states_group
-        self.dialog = dialog
+    def __init__(self, name: str, root: InitNode, states_group: type[StatesGroup], dialog: Dialog):
+        self._name = name
+        self._root = root
+        self._states = states_group
+        self._dialog = dialog
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def root(self) -> InitNode:
+        return self._root
+
+    @property
+    def states(self) -> type[StatesGroup]:
+        return self._states
+
+    @property
+    def dialog(self) -> Dialog:
+        return self._dialog
 
 
 class DialogsFactory(AbstractFactory):
+    _items: list[DialogsFactoryItem]
     _interviews: list[Interview]
 
     def __init__(self, interviews_path: str):

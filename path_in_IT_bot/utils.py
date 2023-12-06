@@ -11,7 +11,7 @@ from aiogram.types import KeyboardButton, InlineKeyboardMarkup, InlineKeyboardBu
 # from aiocache.serializers import StringSerializer
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from path_in_IT_bot.entities.graph import AbstractNode
+# from path_in_IT_bot.entities.graph import AbstractNode
 
 
 # @aiocache.cached(
@@ -27,10 +27,10 @@ def find_node(to_find_node_id: str, root):
 
 
 def iter_graph(
-        root: AbstractNode,
+        root,
         _first=True,
-        _used: set[AbstractNode] | None = None,
-) -> Iterator[AbstractNode]:
+        _used = None,
+) -> Iterator:
     if _used is None:
         _used = set()
     if _first:

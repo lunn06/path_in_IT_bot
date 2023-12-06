@@ -1,55 +1,33 @@
 import json
 from typing import Any
 
+from path_in_IT_bot.entities.graph import GraphBuilder, InitNode
 from path_in_IT_bot.utils import iter_graph
-from .graph import GraphBuilder, AbstractNode, InitNode
 
 
 class Interview:
     _path: str
     _name: str
     _json: dict[str, Any]
-    _root: AbstractNode
-    _nodes: list[AbstractNode]
+    _root: InitNode
 
     files_dir = ".cache"
 
     def __init__(self, path: str):
-        # if path.strip().endswith(".canvas"):
-        #     file_name = list(path.strip().split(os.sep))[-1]
-        #     json_dir = os.getcwd() + os.sep + Interview.files_dir
-        #     if not os.path.exists(json_dir):
-        #         os.mkdir(json_dir)
-        #     json_file = file_name.replace(".canvas", ".json")
-        #     json_path = json_dir + os.sep + json_file
-        #     copyfile(path, json_path)
-        #
-        #     self._path = json_path
-        # elif path.strip().endswith(".json"):
-        #     self._path = path
-        # else:
-        #     raise ValueError("Path is not valid")
-
-        # self._name: str = self._path.strip().split("/")[-1].removesuffix(".json")
         self._path = path
         self._name: str = self._path.strip().split("/")[-1].removesuffix(".canvas")
 
         with open(self._path) as file:
             self._json = json.loads(file.read())
 
-        # self._nodes: list[AbstractNode] = []
         self._build_graph()
-
-    # @property
-    # def nodes(self) -> list[AbstractNode]:
-    #     return self._nodes
 
     @property
     def name(self) -> str:
         return self._name
 
     @property
-    def root(self) -> AbstractNode:
+    def root(self) -> InitNode:
         return self._root
 
     def _build_graph(self) -> None:
