@@ -1,8 +1,8 @@
 import json
 from typing import Any
 
-from path_in_IT_bot.entities.graph import GraphBuilder, AbstractNode, InitNode
 from path_in_IT_bot.utils import iter_graph
+from .graph import GraphBuilder, AbstractNode, InitNode
 
 
 class Interview:

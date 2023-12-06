@@ -1,8 +1,8 @@
 from aiogram.fsm.state import StatesGroup
 from aiogram_dialog import Dialog
 
-from path_in_IT_bot.builders.dialogs_builder import DialogsBuilder
-from path_in_IT_bot.builders.states_builder import StatesGroupBuilder
+from path_in_IT_bot.builders.dialog_builder import DialogBuilder
+from path_in_IT_bot.builders.states_group_builder import StatesGroupBuilder
 from path_in_IT_bot.entities.graph import AbstractNode
 from path_in_IT_bot.entities.interveiw import Interview
 from path_in_IT_bot.factories.abstract_factory import AbstractFactory
@@ -10,7 +10,7 @@ from path_in_IT_bot.factories.interviews_factory import InterviewsFactory
 from path_in_IT_bot.utils import iter_graph
 
 
-class DialogFactoryItem:
+class DialogsFactoryItem:
     name: str
     root: AbstractNode
     states: type[StatesGroup]
@@ -23,7 +23,7 @@ class DialogFactoryItem:
         self.dialog = dialog
 
 
-class DialogFactory(AbstractFactory):
+class DialogsFactory(AbstractFactory):
     _interviews: list[Interview]
 
     def __init__(self, interviews_path: str):
@@ -32,11 +32,11 @@ class DialogFactory(AbstractFactory):
         self._items = []
 
         for interview in self._interviews:
-            states_group = DialogFactory.generate_state(interview)
-            dialog = DialogsBuilder.build_from(interview, states_group)
+            states_group = DialogsFactory.generate_state(interview)
+            dialog = DialogBuilder.build_from(interview, states_group)
 
             self._items += [
-                DialogFactoryItem(
+                DialogsFactoryItem(
                     interview.name,
                     interview.root,
                     states_group,
@@ -49,6 +49,6 @@ class DialogFactory(AbstractFactory):
 
 
 if __name__ == "__main__":
-    factory = DialogFactory("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews")
+    factory = DialogsFactory("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews")
     for item in factory.items:
         print(item)
