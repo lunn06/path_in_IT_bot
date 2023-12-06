@@ -1,8 +1,8 @@
 from aiogram.fsm.state import StatesGroup
 from aiogram_dialog import Dialog
 
-from path_in_IT_bot.builders.states_builder import StatesGroupBuilder
 from path_in_IT_bot.builders.dialogs_builder import DialogsBuilder
+from path_in_IT_bot.builders.states_builder import StatesGroupBuilder
 from path_in_IT_bot.entities.graph import AbstractNode
 from path_in_IT_bot.entities.interveiw import Interview
 from path_in_IT_bot.factories.abstract_factory import AbstractFactory

@@ -1,16 +1,16 @@
-from typing import override, Callable, Awaitable, TypeAlias, Any
+from typing import override, Callable, Awaitable, TypeAlias
 
 from aiogram.fsm.state import StatesGroup
 from aiogram.types import CallbackQuery, Message
 from aiogram_dialog import Window, DialogManager
-from aiogram_dialog.widgets.kbd import Button, Select
-from aiogram_dialog.widgets.text import Const, Format
-from aiogram_dialog.widgets.kbd.select import OnItemClick
 from aiogram_dialog.widgets.input.text import OnSuccess, TextInput
+from aiogram_dialog.widgets.kbd import Button, Select
+from aiogram_dialog.widgets.kbd.select import OnItemClick
+from aiogram_dialog.widgets.text import Const, Format
 
-from path_in_IT_bot.utils import validated, find_node
 from path_in_IT_bot.builders.abstract_builder import AbstractBuilder
 from path_in_IT_bot.entities.graph import AbstractNode, InitNode, EndNode, ChooseQuestionNode, QuestionNode
+from path_in_IT_bot.utils import validated, find_node
 
 
 async def button_end_clicked(_callback: CallbackQuery, _buttton: Button, manager: DialogManager):
@@ -63,6 +63,7 @@ class WindowBuilder(AbstractBuilder):
     _product: Window
     _node: AbstractNode
     _states_group: type[StatesGroup]
+
     # _on_click: OnClick | None
     # _on_item_click: OnItemClick | None
     # _on_success: OnSuccess | None

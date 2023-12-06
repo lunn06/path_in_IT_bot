@@ -2,9 +2,9 @@ from typing import override
 
 from aiogram.fsm.state import StatesGroup, State  # noqa: F401
 
-from path_in_IT_bot.utils import random_str
-from path_in_IT_bot.templates import meta_class_env
 from path_in_IT_bot.builders.abstract_builder import AbstractBuilder
+from path_in_IT_bot.templates import meta_class_env
+from path_in_IT_bot.utils import random_str
 
 
 class StatesGroupBuilder(AbstractBuilder):
