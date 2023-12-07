@@ -180,8 +180,10 @@ class WindowBuilder(AbstractBuilder):
     ) -> Window:
         window = Window(
             Const(node.text),
+            # Cancel(),
             TextInput(on_success=on_success, id=node.field),
-            state=getattr(states_group, f"state_{node.id}")
+            state=getattr(states_group, f"state_{node.id}"),
+            # preview_add_transitions=[Next()]
         )
 
         return window

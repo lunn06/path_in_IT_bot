@@ -11,7 +11,7 @@ class Meta_{{ class_id }}(StatesGroup):
 
 dialog_handler_template = '''
 @router.message(Menu.interview)
-@router.message(F.text == "{{ item.name }}")
+@router.message(F.text.in_({ "{{ item.name }}", }))
 async def dialog_{{ handler_id }}_handler(
     msg: Message, 
     user: DBUser, 
@@ -19,12 +19,14 @@ async def dialog_{{ handler_id }}_handler(
 ) -> None:
     for item in factory.items:
         if item.name == "{{ item.name }}":
+            await dialog_manager.reset_stack()
             await dialog_manager.start(
                 getattr(item.states, "state_{{ item.root.id }}"),
                 data=item,
                 mode=StartMode.RESET_STACK
             )
-            break
+            print("Init {{ item.name }}")
+            return
 '''
 
 meta_class_env = env.from_string(meta_class_template)

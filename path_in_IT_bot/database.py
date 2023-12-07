@@ -92,7 +92,7 @@ class DBUser:
             config.db_user,
             config.db_name,
             config.db_user_password.get_secret_value(),
-            config.db_host
+            str(config.db_host),
         )
 
         await db.initiate()

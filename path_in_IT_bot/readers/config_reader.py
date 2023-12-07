@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from pydantic import SecretStr, PositiveInt
+from pydantic import SecretStr, PositiveInt, DirectoryPath, IPvAnyAddress
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 load_dotenv()
@@ -10,9 +10,11 @@ class Config(BaseSettings):
     db_user: str
     db_name: str
     db_user_password: SecretStr
-    db_host: str
+    db_host: IPvAnyAddress
 
+    models_path: DirectoryPath
     initial_currency: PositiveInt
+    interview_column_wight: PositiveInt
 
     model_config = SettingsConfigDict(env_file='.env', env_file_encoding='utf-8')
 

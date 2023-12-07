@@ -45,7 +45,7 @@ class Interview:
 
 
 if __name__ == "__main__":
-    interview = Interview("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews/Test.canvas")
+    interview = Interview("/models/Test.canvas")
     print(interview.name)
     for node in iter_graph(interview.root):
         print(node.text, list((branch.label, branch.to_node.text) for branch in node.branches))
