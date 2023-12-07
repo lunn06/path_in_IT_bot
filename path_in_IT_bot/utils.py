@@ -1,15 +1,16 @@
-import json
 import random
-from string import Template, ascii_lowercase
+from string import ascii_lowercase
 from typing import Iterable, Iterator
 
 # import aiocache
-import aiofiles
 from aiogram.types import KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 # from aiocache import Cache
 # from redis.asyncio.client import Redis
 # from aiocache.serializers import StringSerializer
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+
+from path_in_IT_bot.readers.text_reader import text
+
 
 # from path_in_IT_bot.entities.graph import AbstractNode
 
@@ -29,7 +30,7 @@ def find_node(to_find_node_id: str, root):
 def iter_graph(
         root,
         _first=True,
-        _used = None,
+        _used=None,
 ) -> Iterator:
     if _used is None:
         _used = set()
@@ -57,17 +58,16 @@ def validated[T](value: T) -> T:
     return value
 
 
-async def get_text(text_key: str, **kwargs: str) -> str:
-    async with aiofiles.open("models/text.json", 'r') as file:
-        messages = json.loads(await file.read())
+# async def get_text(text_key: str, **kwargs: str) -> str:
+#     async with aiofiles.open("models/text.json", 'r') as file:
+#         messages = json.loads(await file.read())
+#
+#     text = messages.get(text_key, "Something went wrong")
+#     return Template(text).substitute(kwargs)
 
-    text = messages.get(text_key, "Something went wrong")
-    return Template(text).substitute(kwargs)
-
-
-async def build_inline_start_kb(callback_data: str) -> InlineKeyboardMarkup:
+def build_inline_start_kb(callback_data: str) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    inline_text = await get_text("start_inline_text")
+    inline_text = text.start_inline_text
     builder.add(InlineKeyboardButton(
         text=inline_text,
         callback_data=callback_data
