@@ -24,6 +24,8 @@ class Text(BaseModel):
     garage_greeting: str
     garage_header: str
 
+    test_header: str
+
     currency_description: str
 
 

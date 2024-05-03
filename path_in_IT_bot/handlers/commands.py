@@ -18,6 +18,7 @@ async def start_handler(msg: Message, user: DBUser, state: FSMContext) -> None:
     """
     Функция-обработчик команды /start
 
+    :param state:
     :param User user: объект базы данных
     :param Message msg: объект сообщения
     """
@@ -40,11 +41,13 @@ async def send_launch_message(callback: CallbackQuery, state: FSMContext) -> Non
     Функция-колбек, вызываемая при возврате в главное меню
     Её главная задача - отображать клавиатуру с ключевыми пунктами меню
 
+    :param state:
     :param TelegramBotModel model: объект модели работы бота
     :param CallbackQuery callback: объект колбека для
     """
 
     kb = build_kb((
+        text.test_header,
         text.garage_header,
         text.kitchen_header,
         text.wardrobe_header,

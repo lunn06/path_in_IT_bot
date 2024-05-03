@@ -59,7 +59,7 @@ def validated[T](value: T) -> T:
 
 
 # async def get_text(text_key: str, **kwargs: str) -> str:
-#     async with aiofiles.open("models/text.json", 'r') as file:
+#     async with aiofiles.open("models/text1.json", 'r') as file:
 #         messages = json.loads(await file.read())
 #
 #     text = messages.get(text_key, "Something went wrong")

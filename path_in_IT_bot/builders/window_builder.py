@@ -9,7 +9,6 @@ from aiogram_dialog.widgets.kbd.button import OnClick
 from aiogram_dialog.widgets.kbd.select import OnItemClick
 from aiogram_dialog.widgets.text import Const, Format
 
-from path_in_IT_bot.builders.abstract_builder import AbstractBuilder
 from path_in_IT_bot.entities.graph import AbstractNode, InitNode, EndNode, ChooseQuestionNode, QuestionNode
 from path_in_IT_bot.utils import validated, find_node
 
@@ -54,11 +53,35 @@ async def text_handler(_message: Message, _text_input: TextInput, manager: Dialo
     await manager.next()
 
 
+# Usage: InitWindow
 async def button_clicked(_callback: CallbackQuery, _button: Button, manager: DialogManager, *_):
     await manager.next()
 
 
-class WindowBuilder(AbstractBuilder):
+class InitWindow(Window):
+    def __init__(self, node: AbstractNode, states_group: type[StatesGroup], on_click=button_clicked):
+        super().__init__(
+            Const(node.text),
+            Button(Const("Next"), id="button_init", on_click=on_click),
+            state=getattr(states_group, f"state_{node.id}")
+        )
+
+        self.node = node
+        self.states_group = states_group
+
+
+class EndWindow(Window):
+    def __init__(self, node: AbstractNode, states_group: type[StatesGroup], on_click=button_clicked):
+        super().__init__(
+            Const(node.text),
+            Button(Const("Закончить"), id="button_end", on_click=on_click),
+            state=getattr(states_group, f"state_{node.id}")
+        )
+
+        self.node = node
+        self.states_group = states_group
+
+class WindowBuilder:
     _product: Window
     _node: AbstractNode
     _states_group: type[StatesGroup]
@@ -81,12 +104,10 @@ class WindowBuilder(AbstractBuilder):
         # self._on_item_click = on_item_click
         # self._on_success = on_success
 
-    @override
     @property
     def product(self) -> Window:
         return self._product
 
-    @override
     def produce(self) -> None:
         match self._node:
             case InitNode(id=self._node.id) as init_node:
@@ -111,7 +132,7 @@ class WindowBuilder(AbstractBuilder):
 
     @staticmethod
     @override
-    def build_from(
+    def build(
             node: AbstractNode,
             states_group: type[StatesGroup],
             # on_click: OnClick | None,
@@ -187,3 +208,7 @@ class WindowBuilder(AbstractBuilder):
         )
 
         return window
+
+
+if __name__ == "__main__":
+    print(button_end_clicked.__name__)
