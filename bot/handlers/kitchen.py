@@ -4,16 +4,16 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from path_in_IT_bot.database import DBUser, connect
-from path_in_IT_bot.menu import Menu
-from path_in_IT_bot.readers.text_reader import text
-from path_in_IT_bot.utils import validated
+from bot.database import connect, DBUser
+from bot.menu import Menu
+from bot.readers.text_reader import text
+from bot.utils import validated
 
 router = Router()
 
 
 @router.message(Menu.home)
-@router.message(F.text == text.wardrobe_header)
+@router.message(F.text == text.kitchen_header)
 async def garage_incoming_handler(msg: Message, user: DBUser, state: FSMContext) -> None:
     tg_user = validated(msg.from_user)
 
@@ -24,5 +24,5 @@ async def garage_incoming_handler(msg: Message, user: DBUser, state: FSMContext)
             await msg.answer(currency_description)
             await user.set_currency_descripted(tg_user.id, new_currency_descripted=True, conn=conn)
 
-    await msg.answer(text.wardrobe_greeting)
-    await state.set_state(Menu.wardrobe)
+    await msg.answer(text.kitchen_greeting)
+    await state.set_state(Menu.kitchen)

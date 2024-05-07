@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from aiogram.fsm.state import StatesGroup, State  # noqa: F401
 
-from path_in_IT_bot.templates import meta_class_env
-from path_in_IT_bot.utils import random_str
+from bot.templates import meta_class_env
+from bot.utils import random_str
 
 
 class StatesGroupBuilder:

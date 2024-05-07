@@ -2,7 +2,7 @@ import os
 
 from pydantic import BaseModel
 
-from path_in_IT_bot.readers.config_reader import config
+from bot.readers.config_reader import config
 
 
 class Text(BaseModel):

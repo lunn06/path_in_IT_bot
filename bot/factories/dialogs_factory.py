@@ -1,13 +1,13 @@
 from aiogram.fsm.state import StatesGroup
 from aiogram_dialog import Dialog
 
-from path_in_IT_bot.builders.dialog_builder import DialogBuilder
-from path_in_IT_bot.builders.states_group_builder import StatesGroupBuilder
-from path_in_IT_bot.entities.graph import InitNode
-from path_in_IT_bot.entities.interveiw import Interview
-from path_in_IT_bot.factories.abstract_factory import AbstractFactory
-from path_in_IT_bot.factories.interviews_factory import InterviewsFactory
-from path_in_IT_bot.utils import iter_graph
+from bot.builders.dialog_builder import DialogBuilder
+from bot.builders.states_group_builder import StatesGroupBuilder
+from bot.entities.graph import InitNode
+from bot.entities.interveiw import Interview
+from bot.factories.abstract_factory import AbstractFactory
+from bot.factories.interviews_factory import InterviewsFactory
+from bot.utils import iter_graph
 
 
 class InterviewDialog(Dialog):

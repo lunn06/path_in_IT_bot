@@ -4,11 +4,11 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup
 
-from path_in_IT_bot.database import DBUser
-from path_in_IT_bot.menu import Menu
-from path_in_IT_bot.readers.text_reader import text
-from path_in_IT_bot.utils import build_inline_start_kb, validated
-from path_in_IT_bot.utils import build_kb
+from bot.database import DBUser
+from bot.menu import Menu
+from bot.readers.text_reader import text
+from bot.utils import build_inline_start_kb, validated
+from bot.utils import build_kb
 
 router = Router()
 

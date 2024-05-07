@@ -5,10 +5,10 @@ from aiogram_dialog import Window, Dialog, DialogManager, StartMode
 from aiogram_dialog.widgets.kbd import Start, Group, Keyboard
 from aiogram_dialog.widgets.text import Const
 
-from path_in_IT_bot.factories.dialogs_factory import DialogsFactory
-from path_in_IT_bot.menu import Menu
-from path_in_IT_bot.readers.config_reader import config
-from path_in_IT_bot.readers.text_reader import text
+from bot.factories.dialogs_factory import DialogsFactory
+from bot.menu import Menu
+from bot.readers.config_reader import config
+from bot.readers.text_reader import text
 
 
 class MainInterview(StatesGroup):

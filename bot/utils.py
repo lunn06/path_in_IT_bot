@@ -9,10 +9,10 @@ from aiogram.types import KeyboardButton, InlineKeyboardMarkup, InlineKeyboardBu
 # from aiocache.serializers import StringSerializer
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from path_in_IT_bot.readers.text_reader import text
+from bot.readers.text_reader import text
 
 
-# from path_in_IT_bot.entities.graph import AbstractNode
+# from bot.entities.graph import AbstractNode
 
 
 # @aiocache.cached(

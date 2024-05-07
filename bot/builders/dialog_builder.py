@@ -2,9 +2,9 @@
 from aiogram.fsm.state import StatesGroup
 from aiogram_dialog import Dialog, Window
 
-from path_in_IT_bot.builders.window_builder import WindowBuilder
-from path_in_IT_bot.entities.interveiw import Interview
-from path_in_IT_bot.utils import iter_graph
+from bot.builders.window_builder import WindowBuilder
+from bot.entities.interveiw import Interview
+from bot.utils import iter_graph
 
 
 class DialogBuilder:

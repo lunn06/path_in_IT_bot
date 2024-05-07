@@ -5,7 +5,7 @@ from typing import Any
 import asyncpg  # type: ignore
 from asyncpg import Record
 
-from path_in_IT_bot.readers.config_reader import config
+from bot.readers.config_reader import config
 
 
 class DBUser:

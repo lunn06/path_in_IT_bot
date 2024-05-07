@@ -37,7 +37,7 @@ class ProfModel:
 
     @classmethod
     def default(cls):
-        with (open("../path_in_IT_bot/models/entities.json", 'r') as f):
+        with (open("/models/entities.json", 'r') as f):
             entities_dict = json.load(f)
             entities = []
             for name in entities_dict.keys():
@@ -51,7 +51,7 @@ def distance_between(ent1, ent2):
 
 
 def main():
-    with (open("../path_in_IT_bot/models/entities.json", 'r') as f):
+    with (open("/models/entities.json", 'r') as f):
         entities_dict = json.load(f)
         entities = []
         for name in entities_dict.keys():

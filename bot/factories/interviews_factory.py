@@ -1,8 +1,8 @@
 import os
 from glob import glob
 
-from path_in_IT_bot.entities.interveiw import Interview
-from path_in_IT_bot.factories.abstract_factory import AbstractFactory
+from bot.entities.interveiw import Interview
+from bot.factories.abstract_factory import AbstractFactory
 
 
 class InterviewsFactory(AbstractFactory):
@@ -20,7 +20,7 @@ class InterviewsFactory(AbstractFactory):
 
 
 if __name__ == "__main__":
-    from path_in_IT_bot.utils import iter_graph
+    from bot.utils import iter_graph
 
     factory = InterviewsFactory("/home/dcdnc/mycod/python/path_in_IT_bot/models/interviews")
     for interview in factory.items:

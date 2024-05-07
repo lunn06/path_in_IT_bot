@@ -9,8 +9,8 @@ from aiogram_dialog.widgets.kbd.button import OnClick
 from aiogram_dialog.widgets.kbd.select import OnItemClick
 from aiogram_dialog.widgets.text import Const, Format
 
-from path_in_IT_bot.entities.graph import AbstractNode, InitNode, EndNode, ChooseQuestionNode, QuestionNode
-from path_in_IT_bot.utils import validated, find_node
+from bot.entities.graph import AbstractNode, InitNode, EndNode, ChooseQuestionNode, QuestionNode
+from bot.utils import validated, find_node
 
 
 async def button_end_clicked(_callback: CallbackQuery, _button: Button, manager: DialogManager, *_):
