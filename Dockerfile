@@ -58,7 +58,7 @@ COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
 WORKDIR /app
 
-COPY bot ./path_in_IT_bot
+COPY path_in_IT_bot ./path_in_IT_bot
 COPY models ./models
 COPY .env ./.env
 
