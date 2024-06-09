@@ -10,6 +10,41 @@ from path_in_IT_bot.factories.interviews_factory import InterviewsFactory
 from path_in_IT_bot.utils import iter_graph
 
 
+class InterviewDialog(Dialog):
+    _name: str
+    _root: InitNode
+    _states: type[StatesGroup]
+    _dialog: Dialog
+
+    def __init__(
+            self,
+            name: str,
+            root: InitNode,
+            states_group: type[StatesGroup],
+            interveiw: Interview,
+    ):
+        super().__init__()
+        self._name = name
+        self._root = root
+        self._states = states_group
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def root(self) -> InitNode:
+        return self._root
+
+    @property
+    def states(self) -> type[StatesGroup]:
+        return self._states
+
+    @property
+    def dialog(self) -> Dialog:
+        return self._dialog
+
+
 class DialogsFactoryItem:
     _name: str
     _root: InitNode
@@ -50,7 +85,7 @@ class DialogsFactory(AbstractFactory):
 
         for interview in self._interviews:
             states_group = DialogsFactory.generate_state(interview)
-            dialog = DialogBuilder.build_from(interview, states_group)
+            dialog = DialogBuilder.build(interview, states_group)
 
             self._items += [
                 DialogsFactoryItem(
@@ -62,7 +97,7 @@ class DialogsFactory(AbstractFactory):
 
     @staticmethod
     def generate_state(interview) -> type[StatesGroup]:
-        return StatesGroupBuilder.build_from(*[node.id for node in iter_graph(interview.root)])
+        return StatesGroupBuilder(*[node.id for node in iter_graph(interview.root)]).build()
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Any
 
 from path_in_IT_bot.entities.graph import GraphBuilder, InitNode
@@ -15,7 +16,7 @@ class Interview:
 
     def __init__(self, path: str):
         self._path = path
-        self._name: str = self._path.strip().split("/")[-1].removesuffix(".canvas")
+        self._name: str = self._path.strip().split(os.sep)[-1].removesuffix(".canvas")
 
         with open(self._path) as file:
             self._json = json.loads(file.read())

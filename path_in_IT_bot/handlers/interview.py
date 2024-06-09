@@ -26,7 +26,7 @@ for item in factory.items:
         Const(item.name),
         id=item.name.lower().replace(" ", "_"),
         data=item,
-        state=getattr(item.states, f"state_{item.root.id}")
+        state=getattr(item._states, f"state_{item.root.id}")
     )]
 
     router.include_router(item.dialog)
