@@ -19,6 +19,7 @@ from path_in_IT_bot.handlers import professional_test
 
 
 async def main() -> None:
+
     config: Config = parse_config()
     questions: Questions = parse_questions(config)
 
