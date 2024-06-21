@@ -15,7 +15,7 @@ from bot.database.base import Base
 from bot.database.requests import test_connection
 from bot.middlewares import DatabaseSessionMiddleware, TranslatorRunnerMiddleware
 from bot.utils.i18n import create_translator_hub
-from path_in_IT_bot.handlers import professional_test
+from bot.dialogs import career_guidance_test
 
 
 async def main() -> None:
@@ -26,18 +26,18 @@ async def main() -> None:
 
     prof_model = ProfModel.default()
 
-    engine = create_async_engine(url=str(config.db_url), echo=True)
+    # engine = create_async_engine(url=str(config.db_url), echo=True)
+    #
+    # meta = Base.metadata
+    # async with engine.begin() as conn:
+    #     if config.debug_mode:
+    #         await conn.run_sync(meta.drop_all)
+    #     await conn.run_sync(meta.create_all)
 
-    meta = Base.metadata
-    async with engine.begin() as conn:
-        if config.debug_mode:
-            await conn.run_sync(meta.drop_all)
-        await conn.run_sync(meta.create_all)
+    # session_maker = async_sessionmaker(engine, expire_on_commit=config.debug_mode)
 
-    session_maker = async_sessionmaker(engine, expire_on_commit=config.debug_mode)
-
-    async with session_maker() as session:
-        await test_connection(session)
+    # async with session_maker() as session:
+    #     await test_connection(session)
 
     bot = Bot(
         token=config.telegram_bot_token.get_secret_value(),
@@ -45,21 +45,11 @@ async def main() -> None:
     )
     dp = Dispatcher(storage=MemoryStorage())
 
-    # dp.include_router(interview.router)
-    # dp.include_router(commands.router)
-    dp.include_router(professional_test.proftest_dialog)
-    dp.include_router(professional_test.menu_dialog)
-    dp.include_router(professional_test.practice_dialog)
-    dp.include_router(professional_test.recommendations_dialog)
-    # dp.include_router(professional_test.greeting_dialog)
-    # dp.include_router(garage.router)
-    # dp.include_router(kitchen.router)
-    # dp.include_router(wardrobe.router)
-    # dp.include_router(interview.router)
+    dp.include_router(career_guidance_test.get_dialog(questions))
 
-    dp.message.register(professional_test.proftest_first_start)
+    dp.message.register(career_guidance_test.career_guidance_test_start)
 
-    dp.update.middleware(DatabaseSessionMiddleware(session_pool=session_maker))
+    # dp.update.middleware(DatabaseSessionMiddleware(session_pool=session_maker))
     dp.update.middleware(TranslatorRunnerMiddleware())
 
     setup_dialogs(dp)

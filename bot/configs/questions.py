@@ -6,7 +6,7 @@ from enum import StrEnum
 from functools import lru_cache
 from glob import glob
 from math import floor
-from typing import Any, Optional
+from typing import Any, Optional, override, Iterator
 
 from pydantic import BaseModel, PositiveFloat, FilePath
 from pydantic_core import from_json
@@ -17,20 +17,28 @@ from bot.configs import parse_config, Config
 class Questions(BaseModel):
     questions: list["Question"]
 
-    @property
-    def with_answers(self) -> dict[str, list[str]]:
-        questions_with_answers = {}
-        for question in questions:
-            answers = [answer.text for answer in question.answers]
-            questions_with_answers[question.text] = answers
+    def __getitem__(self, index: int) -> Question:
+        return self.questions[index]
 
-        return questions_with_answers
+    @override
+    def __iter__(self) -> Iterator[Question]:
+        return self.questions.__iter__()
 
 
 class Question(BaseModel):
     text: str
-    image_path: Optional[FilePath]
+    image_path: FilePath
     answers: list["Answer"]
+
+    @property
+    def with_answers(self) -> str:
+        question_with_answers = self.text
+        # question_with_answers += '\n\n'.join(answers)
+
+        for i, answer in enumerate(self.answers):
+            question_with_answers += f"\n\n{i + 1}. {answer.text}"
+
+        return question_with_answers
 
 
 class Answer(BaseModel):

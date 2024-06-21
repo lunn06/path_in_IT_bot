@@ -5,6 +5,10 @@ class Menu(StatesGroup):
     main = State()
 
 
+class Greeting(StatesGroup):
+    unimplemented = State()
+
+
 class Recommendations(StatesGroup):
     unimplemented = State()
 

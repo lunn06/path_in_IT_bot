@@ -41,7 +41,7 @@ class ProfModel:
     @classmethod
     def default(cls):
         config = parse_config()
-        with (open(config.models_path + os.sep + "entities.json", 'r') as f):
+        with (open(str(config.models_path) + os.sep + "entities.json", 'r') as f):
             entities_dict = json.load(f)
             entities = []
             for name in entities_dict.keys():
