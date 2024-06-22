@@ -23,13 +23,16 @@ async def on_multiselect_state_changed(
     answer_qualities = current_question.answers[int(clicked_item) - 1].qualities
     decrease = clicked_item in selected_answers
 
+    if decrease:
+        selected_answers.remove(clicked_item)
+    else:
+        selected_answers.append(clicked_item)
+
     for quality in answer_qualities:
         if decrease:
             current_points[quality.name] = current_points[quality.name] - quality.points
-            selected_answers.remove(clicked_item)
         else:
             current_points[quality.name] = current_points[quality.name] + quality.points
-            selected_answers.append(clicked_item)
 
     manager.dialog_data[state_name] = selected_answers
 
@@ -44,7 +47,7 @@ async def on_next_click(
     state_name = current_context.state.state
 
     for question_id, answers in current_context.widget_data.items():
-        if question_id in state_name:
+        if state_name.endswith(question_id):
             if len(answers) == 0:
                 await callback.answer("Нужно выбрать хотя бы один вариант ответа!")
             else:

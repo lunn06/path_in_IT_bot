@@ -15,7 +15,7 @@ from bot.database.base import Base
 from bot.database.requests import test_connection
 from bot.middlewares import DatabaseSessionMiddleware, TranslatorRunnerMiddleware
 from bot.utils.i18n import create_translator_hub
-from bot.dialogs import career_guidance_test
+from bot.dialogs import career_guidance_test, menu, recomendations, practice, greeting
 
 
 async def main() -> None:
@@ -45,7 +45,10 @@ async def main() -> None:
     )
     dp = Dispatcher(storage=MemoryStorage())
 
+    dp.include_router(menu.get_dialog())
     dp.include_router(career_guidance_test.get_dialog(questions))
+    dp.include_router(recomendations.get_dialog())
+    dp.include_router(practice.get_dialog())
 
     dp.message.register(career_guidance_test.career_guidance_test_start)
 

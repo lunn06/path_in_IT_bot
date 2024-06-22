@@ -22,7 +22,7 @@ class ProfModel:
         distances: list[tuple[Entity, float]] = []
         for e in self.entities:
             c = tuple(e.ent[k] for k in sorted(e.ent.keys()))
-            d = distance_between(c, cc)
+            d = ProfModel.distance_between(c, cc)
             distances += [(e, d)]
 
         distances.sort(key=lambda x: x[1])
