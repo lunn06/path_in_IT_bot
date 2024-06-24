@@ -10,10 +10,13 @@ async def on_multiselect_state_changed(
         _widget: ManagedMultiselect,
         manager: DialogManager,
         clicked_item: str
-):
+) -> None:
     # print(widget.get_checked(), clicked_item, manager.current_context().state.state)
     questions = manager.middleware_data["questions"]
     state_name = manager.current_context().state.state
+
+    assert state_name
+
     question_num = extract_question_number(state_name)
 
     selected_answers = manager.dialog_data.get(state_name, [])
@@ -46,13 +49,18 @@ async def on_next_click(
     current_context = manager.current_context()
     state_name = current_context.state.state
 
+    assert state_name
+
     for question_id, answers in current_context.widget_data.items():
+        assert isinstance(answers, list)
+
         if state_name.endswith(question_id):
             if len(answers) == 0:
                 await callback.answer("Нужно выбрать хотя бы один вариант ответа!")
             else:
                 await manager.next()
             break
+
 
 def extract_question_number(question_state: str) -> int:
     return int(question_state.split('_')[-1])

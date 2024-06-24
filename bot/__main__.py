@@ -6,16 +6,13 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import setup_dialogs
-from fluentogram import TranslatorHub
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from fluentogram import TranslatorHub  # type: ignore
 
 from bot.configs import Config, Questions, parse_config, parse_questions
 from bot.core.classification import ProfModel
-from bot.database.base import Base
-from bot.database.requests import test_connection
-from bot.middlewares import DatabaseSessionMiddleware, TranslatorRunnerMiddleware
+from bot.dialogs import career_guidance_test, menu, recomendations, practice
+from bot.middlewares import TranslatorRunnerMiddleware
 from bot.utils.i18n import create_translator_hub
-from bot.dialogs import career_guidance_test, menu, recomendations, practice, greeting
 
 
 async def main() -> None:
@@ -64,7 +61,6 @@ async def main() -> None:
         questions=questions,
         prof_model=prof_model,
         _translator_hub=translator_hub
-        # user=db,
     )
 
 

@@ -38,7 +38,7 @@ def _prepare_json(entity_path: str) -> dict[Any, Any]:
     with open(entity_path, 'r') as entity_file:
         entity_json = from_json(entity_file.read())
 
-    prepared_json = {"entities": []}
+    prepared_json: dict[str, Any] = {"entities": []}
     for entity, qualities_dict in entity_json.items():
         entity_dict = {
             "name": entity,

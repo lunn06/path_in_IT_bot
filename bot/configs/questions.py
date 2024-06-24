@@ -21,7 +21,7 @@ class Questions(BaseModel):
         return self.questions[index]
 
     @override
-    def __iter__(self) -> Iterator[Question]:
+    def __iter__(self) -> Iterator[Question]:  # type: ignore
         return self.questions.__iter__()
 
 
@@ -84,7 +84,7 @@ def parse_questions(config: Config) -> Questions:
 
 
 def _normalize_points(questions: Questions):
-    max_values: dict[str, int] = {}
+    max_values: dict[str, float] = {}
 
     for question in questions.questions:
         for answer in question.answers:
@@ -126,7 +126,7 @@ def _prepare_json(models_path: str) -> dict[Any, Any]:
     with open(questions_path, 'r') as questions_file:
         questions_json: dict[Any, Any] = from_json(questions_file.read(), cache_strings=True)
 
-    prepared_json = {"questions": []}
+    prepared_json: dict[str, Any] = {"questions": []}
     for question_i, t in enumerate(questions_json.items()):
         question, answers_dict = t
         question_number = question_i + 1

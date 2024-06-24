@@ -16,7 +16,7 @@ class ProfModel:
     def __init__(self, entities: list[Entity]):
         self.entities = entities
 
-    def position_of(self, ent: Entity) -> tuple[tuple[Entity, float]]:
+    def position_of(self, ent: Entity) -> tuple[tuple[Entity, float], ...]:
         cc = tuple(ent.ent[k] for k in sorted(ent.ent.keys()))
 
         distances: list[tuple[Entity, float]] = []
@@ -27,15 +27,13 @@ class ProfModel:
 
         distances.sort(key=lambda x: x[1])
 
-        # noinspection PyTypeChecker
-        normal_distances: tuple[float] = tuple(
+        normal_distances: tuple[tuple[Entity, float], ...] = tuple(
             map(
                 lambda x: (x[0], round(1 - x[1] / distances[-1][1], 3)),
                 distances
             )
         )
 
-        # noinspection PyTypeChecker
         return normal_distances
 
     @classmethod
