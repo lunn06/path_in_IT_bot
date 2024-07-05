@@ -10,7 +10,7 @@ from fluentogram import TranslatorHub  # type: ignore
 
 from bot.configs import Config, Questions, parse_config, parse_questions
 from bot.core.classification import ProfModel
-from bot.dialogs import career_guidance_test, menu, recomendations, practice
+from bot.dialogs import career_guidance_test, menu, recomendations, practice, BelbinsTest
 from bot.middlewares import TranslatorRunnerMiddleware
 from bot.utils.i18n import create_translator_hub
 
@@ -46,7 +46,7 @@ async def main() -> None:
     dp.include_router(career_guidance_test.get_dialog(questions))
     dp.include_router(recomendations.get_dialog())
     dp.include_router(practice.get_dialog())
-
+    dp.include_router(BelbinsTest.get_dialog())
     dp.message.register(career_guidance_test.career_guidance_test_start)
 
     # dp.update.middleware(DatabaseSessionMiddleware(session_pool=session_maker))
