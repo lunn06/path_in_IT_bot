@@ -21,6 +21,7 @@ class StartSG(StatesGroup):
     window_answer_ball = State()
     window_conclusion = State()
     window_description_role = State()
+    pass
 async def some_handler(callback: CallbackQuery, button: Button, dialog_manager: DialogManager):
     dialog_manager.dialog_data.update(question_index=0, bank_of_ball=10, max_bank=10)
     await dialog_manager.next()
