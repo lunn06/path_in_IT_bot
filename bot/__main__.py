@@ -8,9 +8,9 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import setup_dialogs
 from fluentogram import TranslatorHub  # type: ignore
 
-from bot.configs import Config, Questions, parse_config, parse_questions
+from bot.configs import Config, Questions, parse_config, parse_questions, BelbinsTest, load_test
 from bot.core.classification import ProfModel
-from bot.dialogs import career_guidance_test, menu, recomendations, practice, BelbinsTest
+from bot.dialogs import career_guidance_test, menu, recomendations, practice, belbins_test
 from bot.middlewares import TranslatorRunnerMiddleware
 from bot.utils.i18n import create_translator_hub
 
@@ -18,7 +18,7 @@ from bot.utils.i18n import create_translator_hub
 async def main() -> None:
     config: Config = parse_config()
     questions: Questions = parse_questions(config)
-
+    belbins_test: BelbinsTest = load_test(config)
     translator_hub: TranslatorHub = create_translator_hub()
 
     prof_model = ProfModel.default()
@@ -46,7 +46,8 @@ async def main() -> None:
     dp.include_router(career_guidance_test.get_dialog(questions))
     dp.include_router(recomendations.get_dialog())
     dp.include_router(practice.get_dialog())
-    dp.include_router(BelbinsTest.get_dialog())
+    dp.include_router(belbins_test.get_dialog())
+
     dp.message.register(career_guidance_test.career_guidance_test_start)
 
     # dp.update.middleware(DatabaseSessionMiddleware(session_pool=session_maker))
@@ -60,7 +61,8 @@ async def main() -> None:
         allowed_updates=dp.resolve_used_update_types(),
         questions=questions,
         prof_model=prof_model,
-        _translator_hub=translator_hub
+        _translator_hub=translator_hub,
+        belbins_test=belbins_test
     )
 
 
