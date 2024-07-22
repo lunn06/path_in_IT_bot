@@ -45,3 +45,11 @@ class CareerGuidanceTesting(StatesGroup):
     question_25 = State()
 
     results = State()
+
+
+class StartSG(StatesGroup):
+    start = State()
+    window_chapter = State()
+    window_answer_ball = State()
+    window_conclusion = State()
+    window_description_role = State()
